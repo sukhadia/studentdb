@@ -3,7 +3,8 @@ Introduction:
 Student DB is a basic student information management web application developed originally for Chang Lee's Tae Kwon Do (CLTCUSA) in Batavia, IL. It is based on 
 the Node Cellar application by C. Coenraets. The rest of the instructions are specific to CLTCUSA's environment.
 
-(Start of CLTCUSA-specific documentation:
+Start of CLTCUSA-specific documentation:
+----------------------------------------
 A copy of this file is also on the desktop under the name STUDENT_DB_NOTES.txt.
 
 How to start:
