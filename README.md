@@ -6,8 +6,8 @@ the Node Cellar application by C. Coenraets.
 IMPORTANT: Please note, the rest of the instructions are specific to my environment. But if you wanted to try out this application for your own needs,
 your steps should be similar.
 
-Start of CLTCUSA-specific documentation:
-----------------------------------------
+Start of documentation specific to my environment:
+--------------------------------------------------
 A copy of this file is also on the desktop under the name STUDENT_DB_NOTES.txt.
 
 How to start:
