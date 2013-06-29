@@ -1,3 +1,3 @@
-cd \rndProjects\studentdb
+cd \software\studentdb
 git pull
 node server.js

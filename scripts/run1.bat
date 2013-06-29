@@ -1,2 +1,2 @@
-cd \rndProjects\studentdb
+cd \software\studentdb
 mongod --dbpath data
