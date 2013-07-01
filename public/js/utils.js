@@ -71,7 +71,7 @@ window.utils = {
     },
 
     yearsSince: function (date, datePattern) {
-        return moment(date, datePattern).add('years', 1).fromNow().replace(' years ago', '');
+        return (date)? moment(date, datePattern).add('years', 1).fromNow().replace(' years ago', '') : '';
     }
 
 };
