@@ -77,14 +77,11 @@ define(['jquery', 'underscore', 'backbone', 'utils', 'common/views/home', 'commo
                 sortorder = sortorder || this.sortstate.sortorder,
                 keyword = this.sortstate.keyword,
                 studentList = new StudentCollection({sortfield: sortfield, sortorder: sortorder, keyword: keyword}),
-                isMobile = this.isMobile(params),
+                isMobile = (params && params.mobile),
                 studentListViewParams = {sortstate: this.sortstate, collection: studentList, page: p, mobile: isMobile},
                 studentListView = (isMobile)? new StudentListMobileView(studentListViewParams) :
                                                    new StudentListDesktopView(studentListViewParams),
                 that = this;
-            if (isMobile) {
-                this.saveMobileState();
-            }
             _.extend(studentListView, Backbone.Events);
             studentList.fetch({success: function(collection){
                 studentListView.collection = collection;
@@ -105,24 +102,15 @@ define(['jquery', 'underscore', 'backbone', 'utils', 'common/views/home', 'commo
                     sortorder: options.sortorder,
                     keyword: options.keyword
                 };
-
-                that.navigate('#sortchange/'+options.sortfield+'/'+options.sortorder, {trigger: true});
+                that.navigate(('#sortchange/'+options.sortfield+'/'+options.sortorder + ((isMobile)? '?mobile=true' : '')), {trigger: true});
             });
 
             studentListView.on('search', function (options) {
                 that.sortstate = _.extend(that.sortstate, {
                     keyword: options.keyword
                 });
-                that.navigate('#search/'+options.keyword, {trigger: true});
+                that.navigate(('#search/'+options.keyword + ((isMobile)? '?mobile=true' : '')), {trigger: true});
             });
-        },
-
-        isMobile: function (params) {
-            return ((params && params.mobile) || sessionStorage.getItem('mobile'));
-        },
-
-        saveMobileState: function () {
-            sessionStorage.setItem('mobile', true);
         },
 
         studentDetails: function (id) {
