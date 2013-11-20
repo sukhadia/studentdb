@@ -14,8 +14,8 @@ define(['jquery', 'backbone', 'common/views/paginator'], function($, Backbone, P
         renderCommon: function (listParentSelector, listItemView, template) {
             var students = this.collection.models,
                 len = students.length,
-                startPos = (this.options.page - 1) * 15,
-                endPos = Math.min(startPos + 15, len);
+                startPos = (this.options.page - 1) * 2,
+                endPos = Math.min(startPos + 2, len);
 
             $(this.el).html(_.template(template));
 
