@@ -13,7 +13,7 @@ define(['jquery', 'backbone'], function($, Backbone) {
 
             var items = this.model.models;
             var len = items.length;
-            var pageCount = Math.ceil(len / 2);
+            var pageCount = Math.ceil(len / 15);
 
             $(this.el).html('<ul />');
 
