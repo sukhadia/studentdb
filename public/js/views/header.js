@@ -1,4 +1,8 @@
 window.HeaderView = Backbone.View.extend({
+    events: {
+        'click #browse_students': 'browseStudents'
+
+    },
 
     initialize: function () {
         this.render();
@@ -14,6 +18,11 @@ window.HeaderView = Backbone.View.extend({
         if (menuItem) {
             $('.' + menuItem).addClass('active');
         }
+    },
+
+    browseStudents: function (event) {
+        event.preventDefault();
+        app.navigate('students/all', {trigger: true});
     }
 
 });

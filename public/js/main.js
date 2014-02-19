@@ -9,6 +9,7 @@ var AppRouter = Backbone.Router.extend({
     routes: {
         ''                                            : 'home',
         'students'                                    : 'list',
+        'students/all'                                : 'listAll',
         'students/sort/:page/:sortfield/:sortorder'   : 'sort',
         'students/sort/:sortfield/:sortorder'         : 'sortFirstPage',
         'students/page/:page'	                      : 'list',
@@ -42,19 +43,23 @@ var AppRouter = Backbone.Router.extend({
         this.headerView.selectMenuItem('home-menu');
     },
 
-	list: function(page) {
-        this.sort(page);
+    listAll: function() {
+        this.sort(1, this.sortstate.sortfield, this.sortstate.sortorder, true);
+    },
+
+	list: function(page, all) {
+        this.sort(page, all);
     },
 
     sortFirstPage: function(sortfield, sortorder) {
         this.sort(1, sortfield, sortorder);
     },
 
-    sort: function(page, sortfield, sortorder) {
+    sort: function(page, sortfield, sortorder, all) {
         var p = page ? parseInt(page, 10) : 1,
             sortfield = sortfield || this.sortstate.sortfield,
             sortorder = sortorder || this.sortstate.sortorder,
-            keyword = this.sortstate.keyword,
+            keyword = all? '' : this.sortstate.keyword,
             studentList = new StudentCollection({sortfield: sortfield, sortorder: sortorder, keyword: keyword}),
             studentListView = new StudentListView({sortstate: this.sortstate, collection: studentList, page: p}),
             that = this;
