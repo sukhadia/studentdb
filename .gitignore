@@ -43,3 +43,7 @@ node_modules/
 data/
 *.bak
 .idea/
+.idea/workspace.xml
+run.bat
+scripts/run1.bat
+scripts/run2.bat
