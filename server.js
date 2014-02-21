@@ -13,8 +13,8 @@ app.configure(function () {
 });
 
 app.get('/students', student.findAll);
-app.get('/students/:sortfield/:sortorder/:keyword', student.findAll);
-app.get('/students/:sortfield/:sortorder', student.findAll);
+app.get('/students/:sortfield/:sortorder/:browseType/:keyword', student.findAll);
+app.get('/students/:sortfield/:sortorder/:browseType', student.findAll);
 app.get('/students/:id', student.findById);
 app.post('/students', student.addStudent);
 app.put('/students/:id', student.updateStudent);

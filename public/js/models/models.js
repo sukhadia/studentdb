@@ -88,10 +88,11 @@ window.StudentCollection = Backbone.Collection.extend({
     initialize: function(options) {
         var sortfield = options.sortfield || 'lastname',
             sortorder = options.sortorder || 'ASC',
-            keyword = options.keyword || '';
+            keyword = options.keyword || '',
+            browseType = options.browseType;
         this.sortfield = sortfield;
         this.sortorder = sortorder;
-        this.url = ('/students/' + sortfield + '/' + sortorder + '/' + keyword); 
+        this.url = ('/students/' + sortfield + '/' + sortorder + '/' + browseType + '/' + keyword); 
     }
 
 });

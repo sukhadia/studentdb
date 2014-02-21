@@ -1,7 +1,7 @@
 window.HeaderView = Backbone.View.extend({
     events: {
-        'click #browse_students': 'browseStudents'
-
+        'click #browse_active': 'browseActive',
+        'click #browse_inactive': 'browseInactive'
     },
 
     initialize: function () {
@@ -20,9 +20,15 @@ window.HeaderView = Backbone.View.extend({
         }
     },
 
-    browseStudents: function (event) {
+    browseActive: function (event) {
         event.preventDefault();
-        app.navigate('students/all', {trigger: true});
+        app.navigate('students/active', {trigger: true});
+    },
+
+    browseInactive: function (event) {
+        event.preventDefault();
+        app.navigate('students/inactive', {trigger: true});
     }
+
 
 });

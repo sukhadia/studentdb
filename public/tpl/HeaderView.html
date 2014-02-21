@@ -11,7 +11,13 @@
             <div class="nav-collapse collapse">
 
                 <ul class="nav">
-                    <li class="list-menu"><a id='browse_students' href="#students">Browse Students</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="browse_students">Browse Students<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a id="browse_active">Active</a></li>
+                            <li><a id="browse_inactive">Inactive</a></li>
+                        </ul>
+                    </li>
                     <li class="add-menu"><a id ='add_students' href="#students/add"><i class="icon-edit icon-white"></i> Add Student</a></li>
                 </ul>
             </div>

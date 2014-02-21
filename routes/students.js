@@ -25,8 +25,10 @@ exports.findById = function(req, res) {
 };
 
 exports.findAll = function(req, res) {
+    console.log('Query params: ' + req.params);
     var sortfield = req.params.sortfield,
         sortorder = req.params.sortorder,
+        activeInactive = req.params.browseType === 'INACTIVE'? 'N': (req.params.browseType === 'ACTIVE')? 'Y': '',
         keyword = req.params.keyword;
     sortfield = ((sortfield) ? sortfield : 'lastname');
     sortorder = (('DESC'===sortorder) ? -1 : 1);
@@ -35,11 +37,13 @@ exports.findAll = function(req, res) {
     sortoptions[sortfield] = sortorder;
     console.log('sortoptions: [' + sortfield + ', ' + sortorder + ']')
     db.collection('students', function(err, collection) {
-        collection.ensureIndex( { "lastname": -1 } );
+        collection.ensureIndex( { "active": -1 } );
+        collection.ensureIndex( { "lastname": 0 } );
 		collection.ensureIndex( { "firstname": 1 } );
 		if (keyword) {
-            searchoptions['$or'] = [{'lastname': { $regex: '[.]*'+keyword+'[.]*', $options: 'i' }}, 
-                                   {'firstname': { $regex: '[.]*'+keyword+'[.]*', $options: 'i' }}, 
+            searchoptions['$or'] = [
+                                    {'lastname': { $regex: '[.]*'+keyword+'[.]*', $options: 'i' }}, 
+                                    {'firstname': { $regex: '[.]*'+keyword+'[.]*', $options: 'i' }}
                                    ];
             console.log('Searching by keyword: ' + keyword);
             collection.find(searchoptions)
@@ -48,9 +52,16 @@ exports.findAll = function(req, res) {
                 });
         } 
         else {
-            collection.find().sort(sortoptions).toArray(function(err, items) {
-                res.send(items);
-            });
+            if (activeInactive) {
+                collection.find({'active': activeInactive}).sort(sortoptions).toArray(function(err, items) {
+                    res.send(items);
+                });
+            }
+            else {
+                collection.find().sort(sortoptions).toArray(function(err, items) {
+                    res.send(items);
+                });
+            }
         }
     });
 };

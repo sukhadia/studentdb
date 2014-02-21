@@ -1,4 +1,12 @@
+
+var BROWSE_TYPE = {
+        ALL: 'ALL',
+        ACTIVE: 'ACTIVE',
+        INACTIVE: 'INACTIVE'
+    };
+
 var AppRouter = Backbone.Router.extend({
+
     //required across pages
     sortstate: {
         sortfield: 'lastname',
@@ -9,6 +17,9 @@ var AppRouter = Backbone.Router.extend({
     routes: {
         ''                                            : 'home',
         'students'                                    : 'list',
+        'students/all'                                : 'listAll',
+        'students/active'                             : 'listActive',
+        'students/inactive'                           : 'listInactive',
         'students/all'                                : 'listAll',
         'students/sort/:page/:sortfield/:sortorder'   : 'sort',
         'students/sort/:sortfield/:sortorder'         : 'sortFirstPage',
@@ -44,38 +55,55 @@ var AppRouter = Backbone.Router.extend({
     },
 
     listAll: function() {
-        this.sort(1, this.sortstate.sortfield, this.sortstate.sortorder, true);
+        this.sortstate.browseType = BROWSE_TYPE.ALL;
+        this.sort(1, this.sortstate.sortfield, this.sortstate.sortorder);
     },
 
-	list: function(page, all) {
-        this.sort(page, all);
+	listActive: function() {
+        this.sortstate.browseType = BROWSE_TYPE.ACTIVE;
+        this.sortstate.keyword = '';
+        this.sort(1, this.sortstate.sortfield, this.sortstate.sortorder);
+    },
+
+    listInactive: function() {
+        this.sortstate.browseType = BROWSE_TYPE.INACTIVE;
+        this.sortstate.keyword = '';
+        this.sort(1, this.sortstate.sortfield, this.sortstate.sortorder);
+    },
+
+    list: function(page) {
+        this.sort(page);
     },
 
     sortFirstPage: function(sortfield, sortorder) {
         this.sort(1, sortfield, sortorder);
     },
 
-    sort: function(page, sortfield, sortorder, all) {
+    sort: function(page, sortfield, sortorder) {
         var p = page ? parseInt(page, 10) : 1,
             sortfield = sortfield || this.sortstate.sortfield,
             sortorder = sortorder || this.sortstate.sortorder,
-            keyword = all? '' : this.sortstate.keyword,
-            studentList = new StudentCollection({sortfield: sortfield, sortorder: sortorder, keyword: keyword}),
+            keyword = (this.sortstate.browseType === BROWSE_TYPE.ALL)? '' : this.sortstate.keyword,
+            browseType = this.sortstate.browseType || BROWSE_TYPE.ALL,
+            studentList = new StudentCollection({sortfield: sortfield, sortorder: sortorder, keyword: keyword, browseType: browseType}),
             studentListView = new StudentListView({sortstate: this.sortstate, collection: studentList, page: p}),
             that = this;
         _.extend(studentListView, Backbone.Events);
         studentList.fetch({success: function(collection){
+            // studentListView.collection = (browseType === BROWSE_TYPE.ALL)? collection : collection.filter(function(student) {
+            //     return student.get("active") === ((browseType === BROWSE_TYPE.ACTIVE)? 'Y': 'N');
+            // });
             studentListView.collection = collection;
             that.showView('#content', studentListView);
         }});
         this.headerView.selectMenuItem('list-menu');
 
         //update currently selected sort field and sort order
-        this.sortstate = {
-            sortfield: sortfield,
-            sortorder: sortorder,
-            keyword: keyword
-        };
+        this.sortstate = _.extend(this.sortstate, {
+                    sortfield: sortfield,
+                    sortorder: sortorder,
+                    keyword: keyword
+                });
 
         studentListView.on('sortchange', function (options) {
             that.sortstate = {
