@@ -1,5 +1,4 @@
 # studentdb
--------------
 Student DB is a basic student information management web application. It was developed using the following frameworks:
 JQuery, Backbone JS, Twitter Bootstrap.
 
