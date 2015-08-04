@@ -1,10 +1,9 @@
 # studentdb
-
 Student DB is a basic student information management web application. It was developed using the following frameworks:
 JQuery, Backbone JS, Twitter Bootstrap.
 
 Setup:
---------------------------------------------------
+------
 1.  Install Mongo DB: http://docs.mongodb.org/manual/installation/
 2.  Install Node JS: https://nodejs.org/download/
 3.  Download (or clone) this repository code to a local folder.
